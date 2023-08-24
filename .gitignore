@@ -1,0 +1,6 @@
+.idea
+.vscode
+config/config-dev.yaml
+build/Dockerfile-dev
+go.work
+go.work.sum
