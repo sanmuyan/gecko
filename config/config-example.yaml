@@ -1,0 +1,35 @@
+# 日志级别
+log_level: 5
+# 服务器地址
+server_bind: 0.0.0.0:8080
+# gitlab 地址
+gitlab_url: https://gitlab.example.com
+# gitlab token
+gitlab_token:
+# gitlab token 用户
+gitlab_user:
+# 搜索引擎
+search_provider: es
+# es 地址
+es_url: http://192.168.1.1:9200
+# gitlab 仓库存储地址
+repos_path: /data/gecko/repos
+# 并发同步项目限制
+sync_project_limit: 10
+# 是否开启认证
+enable_auth: true
+# oauth 配置
+oauth_client_id:
+oauth_client_secret:
+# jwt 加密密钥，长度32位的字符串
+token_key:
+# 是否开启代码完整预览
+enable_code_full_preview: false
+# 服务的访问地址
+http_host: https://gecko.example.com
+# 文件夹黑名单
+dir_blacklist:
+  - dist
+  - target
+  - venv
+  - vendor
