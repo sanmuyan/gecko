@@ -1,11 +1,11 @@
 module gecko
 
-go 1.21
+go 1.21.0
 
 require (
 	github.com/gin-gonic/gin v1.9.0
 	github.com/olivere/elastic/v7 v7.0.32
-	github.com/sanmuyan/dao v0.3.4
+	github.com/sanmuyan/dao v0.3.5
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.15.0
