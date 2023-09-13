@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"gecko/pkg/config"
 	"gecko/pkg/model"
-	"github.com/sanmuyan/dao/request"
+	"github.com/sanmuyan/xpkg/xrequest"
 	"golang.org/x/oauth2"
 	"io"
 )
@@ -39,8 +39,8 @@ func GetOauthUser(conf *oauth2.Config, code string) (*model.OauthUser, error) {
 }
 
 func GetProjectACL(projectID, userID int) (*model.ProjectACL, error) {
-	reqConfig := request.Request{
-		Config: &request.Options{
+	reqConfig := xrequest.Request{
+		Config: &xrequest.Options{
 			URL:    fmt.Sprint(config.Conf.GitlabURL, "/api/v4/projects/", projectID, "/members/", userID, "/?private_token=", config.Conf.GitlabToken),
 			Method: "GET",
 		},
@@ -58,8 +58,8 @@ func GetProjectACL(projectID, userID int) (*model.ProjectACL, error) {
 }
 
 func GetGroupACL(groupID, userID int) (*model.ProjectACL, error) {
-	reqConfig := request.Request{
-		Config: &request.Options{
+	reqConfig := xrequest.Request{
+		Config: &xrequest.Options{
 			URL:    fmt.Sprint(config.Conf.GitlabURL, "/api/v4/groups/", groupID, "/members/", userID, "/?private_token=", config.Conf.GitlabToken),
 			Method: "GET",
 		},

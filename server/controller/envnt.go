@@ -4,7 +4,7 @@ import (
 	"gecko/pkg/model"
 	"gecko/pkg/util"
 	"github.com/gin-gonic/gin"
-	"github.com/sanmuyan/dao/response"
+	"github.com/sanmuyan/xpkg/xresponse"
 	"github.com/sirupsen/logrus"
 )
 
@@ -14,13 +14,13 @@ func GitlabUpdate(c *gin.Context) {
 	err := c.ShouldBindJSON(event)
 	if err != nil {
 		logrus.Errorf("body parse error: %v", err)
-		util.Respf().Fail(response.HttpBadRequest).Response(util.GinRespf(c))
+		util.Respf().Fail(xresponse.HttpBadRequest).Response(util.GinRespf(c))
 		return
 	}
 	logrus.Infof("webhook event: %v", event.EventName)
 	project, err := svc.GetProject(event.ProjectID)
 	if err != nil {
-		util.Respf().Fail(response.HttpInternalServerError).Response(util.GinRespf(c))
+		util.Respf().Fail(xresponse.HttpInternalServerError).Response(util.GinRespf(c))
 		return
 	}
 	svc.SyncProject(project)

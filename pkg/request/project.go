@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"gecko/pkg/config"
 	"gecko/pkg/model"
-	"github.com/sanmuyan/dao/request"
+	"github.com/sanmuyan/xpkg/xrequest"
 	"strconv"
 )
 
 func GetProjectsTotal() (int, error) {
-	reqConfig := request.Request{
-		Config: &request.Options{
+	reqConfig := xrequest.Request{
+		Config: &xrequest.Options{
 			URL:    fmt.Sprint(config.Conf.GitlabURL, "/api/v4/projects?private_token=", config.Conf.GitlabToken, "&per_page=1"),
 			Method: "GET",
 		},
@@ -29,8 +29,8 @@ func GetProjectsTotal() (int, error) {
 }
 
 func GetProjects(page, pageSize int) ([]*model.Project, error) {
-	reqConfig := request.Request{
-		Config: &request.Options{
+	reqConfig := xrequest.Request{
+		Config: &xrequest.Options{
 			URL:    fmt.Sprint(config.Conf.GitlabURL, "/api/v4/projects?private_token=", config.Conf.GitlabToken, "&per_page=", pageSize, "&page=", page),
 			Method: "GET",
 		},
@@ -51,8 +51,8 @@ func GetProjects(page, pageSize int) ([]*model.Project, error) {
 }
 
 func GetProject(projectID int) (*model.Project, error) {
-	reqConfig := request.Request{
-		Config: &request.Options{
+	reqConfig := xrequest.Request{
+		Config: &xrequest.Options{
 			URL:    fmt.Sprint(config.Conf.GitlabURL, "/api/v4/projects/", projectID, "/?private_token=", config.Conf.GitlabToken),
 			Method: "GET",
 		},

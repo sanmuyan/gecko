@@ -5,7 +5,7 @@ import (
 	"gecko/pkg/config"
 	"gecko/pkg/model"
 	"gecko/pkg/request"
-	"github.com/sanmuyan/dao/secret"
+	"github.com/sanmuyan/xpkg/xjwt"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 	"time"
@@ -59,7 +59,7 @@ func (s *Service) OauthCallback(code string) any {
 		return err
 	}
 	user.ExpirationTime = time.Now().UTC().Add(time.Hour * 24 * 7).Unix()
-	token, err := secret.CreateToken(user, config.Conf.TokenKey)
+	token, err := xjwt.CreateToken(user, config.Conf.TokenKey)
 	if err != nil {
 		logrus.Errorf("create token error: %v", err)
 	}

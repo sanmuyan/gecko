@@ -5,8 +5,8 @@ import (
 	"gecko/pkg/model"
 	"gecko/pkg/util"
 	"github.com/gin-gonic/gin"
-	"github.com/sanmuyan/dao/response"
-	"github.com/sanmuyan/dao/secret"
+	"github.com/sanmuyan/xpkg/xjwt"
+	"github.com/sanmuyan/xpkg/xresponse"
 	"time"
 )
 
@@ -20,7 +20,7 @@ func Auth(c *gin.Context) {
 		if reqToken == "" {
 			return false
 		}
-		_, err := secret.ParseToken(reqToken, config.Conf.TokenKey, &user)
+		_, err := xjwt.ParseToken(reqToken, config.Conf.TokenKey, &user)
 		if err != nil {
 			return false
 		}
@@ -30,7 +30,7 @@ func Auth(c *gin.Context) {
 		return true
 	}
 	if !res() {
-		util.Respf().Fail(response.HttpUnauthorized).Response(util.GinRespf(c))
+		util.Respf().Fail(xresponse.HttpUnauthorized).Response(util.GinRespf(c))
 		c.Abort()
 		return
 	}

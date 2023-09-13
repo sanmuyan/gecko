@@ -5,7 +5,7 @@ import (
 	"gecko/pkg/model"
 	"gecko/pkg/util"
 	"github.com/gin-gonic/gin"
-	"github.com/sanmuyan/dao/response"
+	"github.com/sanmuyan/xpkg/xresponse"
 	"github.com/sirupsen/logrus"
 	"unicode/utf8"
 )
@@ -14,7 +14,7 @@ func SearchCode(c *gin.Context) {
 	content := c.Query("content")
 	contentCount := utf8.RuneCountInString(content)
 	if contentCount < 1 || contentCount > 256 {
-		util.Respf().Fail(response.HttpBadRequest).Response(util.GinRespf(c))
+		util.Respf().Fail(xresponse.HttpBadRequest).Response(util.GinRespf(c))
 		return
 	}
 	namespacePath := c.Query("namespace_path")
@@ -24,7 +24,7 @@ func SearchCode(c *gin.Context) {
 	}
 	pageNumber, pageSize := util.GetPage(c)
 	if pageNumber*pageSize > int(config.Conf.MaxSearchTotal) {
-		util.Respf().Fail(response.HttpBadRequest).Response(util.GinRespf(c))
+		util.Respf().Fail(xresponse.HttpBadRequest).Response(util.GinRespf(c))
 		return
 	}
 	res, err := svc.SearchCode(project, pageNumber, pageSize)
@@ -37,7 +37,7 @@ func SearchCode(c *gin.Context) {
 	user, err := util.GetUser(c)
 	if err != nil {
 		logrus.Errorln(err)
-		util.Respf().Fail(response.HttpInternalServerError).Response(util.GinRespf(c))
+		util.Respf().Fail(xresponse.HttpInternalServerError).Response(util.GinRespf(c))
 		return
 	}
 	if config.Conf.EnableAuth && !user.IsAdmin {
