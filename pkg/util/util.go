@@ -110,3 +110,27 @@ func MinPreview(content string) string {
 	}
 	return strings.Join(lines, "\n")
 }
+
+func IsWildcardQuery(s string) bool {
+	if strings.Contains(s, "*") && !strings.Contains(s, "\\*") {
+		return true
+	}
+	if strings.Contains(s, "?") && !strings.Contains(s, "\\?") {
+		return true
+	}
+	return false
+}
+
+func IsMatchPhraseQuery(s string) (string, bool) {
+	if strings.HasPrefix(s, "'") && strings.HasSuffix(s, "'") {
+		return s[1 : len(s)-1], true
+	}
+	return s, false
+}
+
+func IsMatchQuery(s string) (string, bool) {
+	if strings.Contains(s, " ") {
+		return s, true
+	}
+	return s, false
+}

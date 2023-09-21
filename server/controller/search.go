@@ -7,20 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sanmuyan/xpkg/xresponse"
 	"github.com/sirupsen/logrus"
-	"unicode/utf8"
 )
 
 func SearchCode(c *gin.Context) {
-	content := c.Query("content")
-	contentCount := utf8.RuneCountInString(content)
-	if contentCount < 1 || contentCount > 256 {
+	project := &model.Project{}
+	if err := c.ShouldBindQuery(project); err != nil {
 		util.Respf().Fail(xresponse.HttpBadRequest).Response(util.GinRespf(c))
 		return
-	}
-	namespacePath := c.Query("namespace_path")
-	project := &model.Project{
-		NamespacePath: namespacePath,
-		CodeContent:   content,
 	}
 	pageNumber, pageSize := util.GetPage(c)
 	if pageNumber*pageSize > int(config.Conf.MaxSearchTotal) {

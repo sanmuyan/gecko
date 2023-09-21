@@ -18,17 +18,17 @@ func (s *Service) GitClone(project *model.Project) {
 	if _, err := os.Stat(fullPath); os.IsNotExist(err) {
 		cmd := exec.Command("git", "clone", util.BuilderGitURL(project.URL, config.Conf.GitlabUser, config.Conf.GitlabToken), clonePath)
 		cmd.Dir = config.Conf.ReposPath
-		logrus.Infof("clone project: %s", project.NamespacePath)
+		logrus.Infof("clone project: %s", project.PathWithNamespace)
 		stdout := new(bytes.Buffer)
 		stderr := new(bytes.Buffer)
 		cmd.Stdout = stdout
 		cmd.Stderr = stderr
 		err := cmd.Run()
 		if err != nil {
-			logrus.Errorf("clone project %s error: %s", project.NamespacePath, stderr)
+			logrus.Errorf("clone project %s error: %s", project.PathWithNamespace, stderr)
 			return
 		}
-		logrus.Infof("clone project %s message: %s", project.NamespacePath, stdout)
+		logrus.Infof("clone project %s message: %s", project.PathWithNamespace, stdout)
 		s.ParseFile(project, fullPath)
 	}
 }
@@ -37,17 +37,17 @@ func (s *Service) GitPull(project *model.Project) {
 	fullPath := fmt.Sprint(config.Conf.ReposPath, "/", project.Name, project.ID)
 	cmd := exec.Command("git", "pull")
 	cmd.Dir = fullPath
-	logrus.Infof("pull project: %s", project.NamespacePath)
+	logrus.Infof("pull project: %s", project.PathWithNamespace)
 	stdout := new(bytes.Buffer)
 	stderr := new(bytes.Buffer)
 	cmd.Stdout = stdout
 	cmd.Stderr = stderr
 	err := cmd.Run()
 	if err != nil {
-		logrus.Errorf("pull project %s error: %s", project.NamespacePath, stderr)
+		logrus.Errorf("pull project %s error: %s", project.PathWithNamespace, stderr)
 		return
 	}
-	logrus.Infof("pull project %s message: %s", project.NamespacePath, stdout)
+	logrus.Infof("pull project %s message: %s", project.PathWithNamespace, stdout)
 	if strings.HasPrefix(stdout.String(), "Already up-to-date") || strings.HasPrefix(stdout.String(), "Already up to date") {
 		return
 	}

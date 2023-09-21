@@ -38,7 +38,6 @@ func (s *Service) GetProjectsAndSync() {
 		}
 		for _, project := range projects {
 			wg.Add(1)
-			Projects.Store(project.ID, project)
 			go func(project *model.Project) {
 				pool <- true
 				defer func() {
@@ -64,7 +63,7 @@ func (s *Service) GetProject(projectID int) (*model.Project, error) {
 }
 
 func (s *Service) SyncProject(project *model.Project) {
-	Projects.Store(project.ID, project)
+	storeProject(project)
 	fullPath := fmt.Sprint(config.Conf.ReposPath, "/", project.Name, project.ID)
 	if _, err := os.Stat(fullPath); os.IsNotExist(err) {
 		s.GitClone(project)

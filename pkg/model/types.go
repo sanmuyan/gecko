@@ -3,21 +3,21 @@ package model
 import "errors"
 
 type Namespace struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-	Kind string `json:"kind"`
+	ID   int    `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+	Kind string `json:"kind,omitempty"`
 }
 
 type Project struct {
-	ID             int       `json:"id" bson:"id"`
-	Name           string    `json:"name" bson:"name"`
-	NamespacePath  string    `json:"path_with_namespace" bson:"namespace_path"`
-	Visibility     string    `json:"visibility" bson:"visibility"`
-	URL            string    `json:"http_url_to_repo" bson:"project_url"`
-	Namespace      Namespace `json:"namespace" bson:"namespace"`
-	CodeFileName   string    `json:"code_file_name,omitempty" bson:"code_file_name"`
-	CodeSuffixName string    `json:"code_suffix_name,omitempty" bson:"code_suffix_name"`
-	CodeContent    string    `json:"code_content,omitempty" bson:"code_content"`
+	ID                int        `json:"id,omitempty" form:"id"`
+	Name              string     `json:"name,omitempty"`
+	PathWithNamespace string     `json:"path_with_namespace,omitempty" form:"path_with_namespace"`
+	Visibility        string     `json:"visibility,omitempty"`
+	URL               string     `json:"http_url_to_repo,omitempty"`
+	Namespace         *Namespace `json:"namespace,omitempty"`
+	CodeFileName      string     `json:"code_file_name,omitempty" form:"code_file_name"`
+	CodeSuffixName    string     `json:"code_suffix_name,omitempty" form:"code_suffix_name"`
+	CodeContent       string     `json:"code_content,omitempty" form:"code_content"`
 }
 
 type Projects struct {

@@ -39,6 +39,9 @@ func (s *Service) ParseFile(project *model.Project, projectPath string) {
 		}
 		project.CodeFileName = projectFile
 		project.CodeSuffixName = suffixName
+		if project.CodeSuffixName == "" {
+			project.CodeSuffixName = projectFile
+		}
 		project.CodeContent = string(readFile)
 		err = search.Client.UpdateCode(project)
 		if err != nil {
