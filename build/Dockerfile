@@ -13,7 +13,8 @@ ENV LANG=en_US.utf8
 
 RUN set -x \
     && mkdir -p /data \
-    && yum install git -y
+    && apt update -y \
+    && apt install git -y
 
 WORKDIR /data
 
