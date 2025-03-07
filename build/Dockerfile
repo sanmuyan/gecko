@@ -6,19 +6,15 @@ WORKDIR /workspace
 
 COPY ./ ./
 
-RUN go build -o gecko-server ./cmd/server
+RUN --mount=type=cache,target=/root/.cache \
+    --mount=type=cache,target=/go \
+    go build -o gecko-server ./cmd/server
 
-FROM ubuntu:22.04
-ENV LANG=en_US.utf8
+FROM sanmuyan/ubuntu:22.04-base-20250306
 
 RUN set -x \
-    && mkdir -p /data \
-    && apt update -y \
     && apt install git -y
 
-WORKDIR /data
-
 COPY --from=builder /workspace/gecko-server ./
-COPY --from=builder /workspace/config/ ./config
 
-CMD ["/data/gecko-server"]
+CMD ["/opt/app/gecko-server"]

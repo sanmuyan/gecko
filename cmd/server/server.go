@@ -1,18 +1,23 @@
 package main
 
 import (
+	"context"
 	"gecko/cmd/server/cmd"
-	"log"
-	"net/http"
+	"github.com/sirupsen/logrus"
+	"os"
+	"os/signal"
+	"syscall"
 )
 import _ "net/http/pprof"
 
 func main() {
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+	ctx, cancel := context.WithCancel(context.Background())
 	go func() {
-		err := http.ListenAndServe("0.0.0.0:7777", nil)
-		if err != nil {
-			log.Fatalf("Debug error: %v", err)
-		}
+		<-sigs
+		logrus.Info("process is shutting down...")
+		cancel()
 	}()
-	cmd.Execute()
+	cmd.Execute(ctx)
 }
