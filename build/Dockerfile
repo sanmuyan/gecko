@@ -10,10 +10,9 @@ RUN --mount=type=cache,target=/root/.cache \
     --mount=type=cache,target=/go \
     go build -o gecko-server ./cmd/server
 
-FROM sanmuyan/ubuntu:22.04-base-20250306
+FROM sanmuyan/ubuntu:22.04-base-20250427
 
-RUN set -x \
-    && apt install git -y
+RUN apt install git -y
 
 COPY --from=builder /workspace/gecko-server ./
 
